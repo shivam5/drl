@@ -63,6 +63,22 @@
  
  <h2>Deep Reinforcement Learning techniques</h2>
  
+ <h3>Asynchronous Methods for Deep Reinforcement Learning</h3>
+ <p>
+ Current Deep RL algorithms based on experience replay have shown a lot of success but they have some drawbacks such as higher memoury and computation requirements,
+ and requirement of off-policy learning algorithms. This paper proposes an algorithm where we execute multiple agents asynchronously
+ in parallel on multiple instances of the environment. Multiple agents can run different exploration policies on multiple threads.</p> 
+ <br>
+ <h4>Advantages of using Asynchronous Methods</h4>
+ <ol>
+ <li>We do not use a replay memory and rely on parallel agents employing different exploration policies to perform the stabilizing role undertaken by experience replay in the
+DQN training algorithm. Since we no longer rely on experience replay for stabilizing learning we are able to use on-policy reinforcement learning methods.
+ <li>A reduction in training time that is roughly linear in the number of parallel agents.
+ <li>Previous approaches to deep reinforcement learning rely heavily on specialized hardware such as GPUs  
+ , however this approach can run experiments on a single machine with a standard multi-core CPU.
+</ol>
+ 
+ 
  <h3>Deep reinforcement learning using Q-learning</h3>
  <h4>Introduction of Q-Learning</h4>
  <p>
