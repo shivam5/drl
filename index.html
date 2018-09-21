@@ -75,8 +75,8 @@ span:after {
     If the MDP is episodic, i.e., the state is reset after each episode of length T, then the sequence of states, actions and rewards in an episode constitutes a trajectory of the policy. Every trajectory of a policy accumulates rewards from the environment, resulting in the return 
 <p id = "equation">
    R= <span>&Sigma;</span>
- &gamma<sup>t</sup>r<sub>t+1</sub>
-</p>​
+ &gamma;<sup>t</sup>r<sub>t+1</sub>
+</p>
 
   The goal of RL is to find an optimal policy, π∗ , which achieves the maximum expected return from all states
  <br> π<sup>∗</sup> = argmax<sub>π</sub> E[R|π]<br>
@@ -111,11 +111,11 @@ span:after {
  </p>
  <p>
   The aim of the agent is to learn a policy such that its value (usually the discounted reward) is maximized.<br>
-  Q*(s,a), where a is an action and s is a state, is the expected value (cumulative discounted reward) of doing a in state s and then following the optimal policy. <br>
+  Q<sup>*</sup>(s,a), where a is an action and s is a state, is the expected value (cumulative discounted reward) of doing a in state s and then following the optimal policy. <br>
   Q-learning uses temporal differences to estimate the value of Q*(s,a). In Q-learning, the agent maintains a table of Q[S,A], where S is the set of states and A is the set of actions. Q[s,a] represents its current estimate of Q*(s,a). <br>
   An experience ⟨s,a,r,s'⟩ provides one data point for the value of Q(s,a). The data point is that the agent received the future value of r+ γV(s'), where V(s') =maxa' Q(s',a'); this is the actual current reward plus the discounted estimated future value. This new data point is called a return. <br>
   The update for Q[s,a] is as follows:<br>
-  Q[s,a] ←(1-α) Q[s,a] + α(r+ γmaxa' Q[s',a']).
+  Q[s,a] ←(1-α) Q[s,a] + α(r+ γmax<sub>a'</sub> Q[s',a']).
  </p>
  <h4>Playing Atari with Deep Reinforcement Learning</h4>
  <p>Mnih et al presented the first deep learning model (Playing Atari with Deep Reinforcement Learning) 
