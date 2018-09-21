@@ -2,6 +2,42 @@
  
  <head>
   <title>Deep Reinforcement Learning</title>
+  <style>
+   p#equation {
+    height: 50px;
+    line-height: 50px;
+}
+
+span {
+    position: relative;
+    font-size: 2.5em;
+    display: inline-block;
+    line-height: .7em;
+    vertical-align: middle;
+}
+
+span:before {
+    font-size: 12px;
+    display: block;
+    position absolute;
+    left: 0;
+    top: 0;
+    content: "T-1";
+    width: 22px;
+    text-align: center;
+}
+
+span:after {
+    font-size: 12px;
+    display: block;
+    position absolute;
+    left: 0;
+    bottom: 0;
+    content: "t = 0";
+    width: 27px;
+    text-align: center;
+}
+  </style>
  </head>
 
  <body>
@@ -37,10 +73,13 @@
      </ol>
     <br>
     If the MDP is episodic, i.e., the state is reset after each episode of length T, then the sequence of states, actions and rewards in an episode constitutes a trajectory of the policy. Every trajectory of a policy accumulates rewards from the environment, resulting in the return 
-    R =PT −1t=0 γ t rt+1.
+<p id = "equation">
+   R= <span>&Sigma;</span>
+ &gamma<sup>t</sup>r<sub>t+1</sub>
+</p>​
 
-    The goal of RL is to find an optimal policy, π∗ , which achieves the maximum expected return from all states
-    π∗ = argmaxπ E[R|π].
+  The goal of RL is to find an optimal policy, π∗ , which achieves the maximum expected return from all states
+ <br> π<sup>∗</sup> = argmax<sub>π</sub> E[R|π]<br>
     It is also possible to consider non-episodic MDPs, where T = ∞. In this situation, γ < 1 prevents an infinite sum of rewards from being accumulated.
     <p>
     A key concept underlying RL is the Markov property:
@@ -63,33 +102,6 @@
  
  <h2>Deep Reinforcement Learning techniques</h2>
  
- <h3>Asynchronous Methods for Deep Reinforcement Learning</h3>
- <p>
- Current Deep RL algorithms based on experience replay have shown a lot of success but they have some drawbacks such as higher memoury and computation requirements,
- and requirement of off-policy learning algorithms. This paper proposes an algorithm where we execute multiple agents asynchronously
- in parallel on multiple instances of the environment. Multiple agents can run different exploration policies on multiple threads.</p> 
- <b>Advantages of using Asynchronous Methods</b>
- <ol>
- <li>We do not use a replay memory and rely on parallel agents employing different exploration policies to perform the stabilizing role undertaken by experience replay in the
-DQN training algorithm. Since we no longer rely on experience replay for stabilizing learning we are able to use on-policy reinforcement learning methods.
- <li>A reduction in training time that is roughly linear in the number of parallel agents.
- <li>Previous approaches to deep reinforcement learning rely heavily on specialized hardware such as GPUs  
- , however this approach can run experiments on a single machine with a standard multi-core CPU.
-</ol>
- 
- When applied to a variety of Atari 2600 domains, on many games, asynchronous reinforcement learning achieves better results, in far less
-time than previous GPU-based algorithms, using far less resources than massively distributed approaches.<br>
- The paper proposes asynchronous versions of 4 different reinforcement learning algorithms and shows that they
-are able to train neural network controllers on a variety of domains in a stable manner.<br>
- The 4 asynchronous algorithms proposed are as follows:
- <ol>
-  <li>Asynchronous one-step Q-learning
-   <li>Asynchronous one-step Sarsa
-    <li>Asynchronous n-step Q-learning
-     <li>Asynchronous advantage actor-critic
-  </ol>
- 
- 
  <h3>Deep reinforcement learning using Q-learning</h3>
  <h4>Introduction of Q-Learning</h4>
  <p>
@@ -105,11 +117,45 @@ are able to train neural network controllers on a variety of domains in a stable
   The update for Q[s,a] is as follows:<br>
   Q[s,a] ←(1-α) Q[s,a] + α(r+ γmaxa' Q[s',a']).
  </p>
- 
+ <h4>Playing Atari with Deep Reinforcement Learning</h4>
+ <p>Mnih et al presented the first deep learning model (Playing Atari with Deep Reinforcement Learning) 
+  leveraging reinforcement learning. The model
+  directly learns optimal policy from high-dimensional sensory input (not any hand-crafted representation).
+  They use a convolutional neural network which is trained using a variant of Q-learning. The input to their model
+  is the raw pixels and output is the value function estimating future rewards.</p>
+ <p>They applied their method to seven Atari 2600 games from the Arcade Learning Environment. This algorithm outperforms
+  all previous approaches on six of the seven games, and outperforms humans in three of the games</p>
+
+  <h3>Asynchronous Methods for Deep Reinforcement Learning</h3>
+  <p>
+  Current Deep RL algorithms based on experience replay have shown a lot of success but they have some drawbacks such as higher memoury and computation requirements,
+  and requirement of off-policy learning algorithms. This paper proposes an algorithm where we execute multiple agents asynchronously
+  in parallel on multiple instances of the environment. Multiple agents can run different exploration policies on multiple threads.</p> 
+  <b>Advantages of using Asynchronous Methods</b>
+  <ol>
+  <li>We do not use a replay memory and rely on parallel agents employing different exploration policies to perform the stabilizing role undertaken by experience replay in the
+ DQN training algorithm. Since we no longer rely on experience replay for stabilizing learning we are able to use on-policy reinforcement learning methods.
+  <li>A reduction in training time that is roughly linear in the number of parallel agents.
+  <li>Previous approaches to deep reinforcement learning rely heavily on specialized hardware such as GPUs  
+  , however this approach can run experiments on a single machine with a standard multi-core CPU.
+ </ol>
+  
+  When applied to a variety of Atari 2600 domains, on many games, asynchronous reinforcement learning achieves better results, in far less
+ time than previous GPU-based algorithms, using far less resources than massively distributed approaches.<br>
+  The paper proposes asynchronous versions of 4 different reinforcement learning algorithms and shows that they
+ are able to train neural network controllers on a variety of domains in a stable manner.<br>
+  The 4 asynchronous algorithms proposed are as follows:
+  <ol>
+   <li>Asynchronous one-step Q-learning
+    <li>Asynchronous one-step Sarsa
+     <li>Asynchronous n-step Q-learning
+      <li>Asynchronous advantage actor-critic
+   </ol>
  
  <h3>References</h3>
  <ol>
   <li>https://artint.info/html/ArtInt_265.html</li>
+  <li>Playing Atari with Deep Reinforcement Learning</li>
  </ol>
  
  </body>
