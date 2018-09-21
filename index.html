@@ -10,7 +10,7 @@
      
 
 
-   <h2>Introduction</h2>
+   <h3>Introduction</h3>
 
     <p>Reinforcement Learning is the branch of machine learning in which an agent learns by interacting with the environment.<br> 
     Perception, and representation of the environment is one of the key problems that must be solved before the agent can decide to select an optimal action to take. In reinforcement learning tasks, usually a human expert provides features of the environment based on his knowledge of the task. This causes the lack scalablity and is hence limited to fairly low-dimensional problems.<br>
@@ -21,7 +21,7 @@
     The second major success of DRL was the development of, AlphaGo, a DRL system that defeated a human world champion in Go.
     </p>
     
-  <h2>Reinforcement Learning</h2>
+  <h3>Reinforcement Learning</h3>
     <p>
     Reinforcement Learning is mainly based on learning via interaction with the environment. At each step the agent interacts with the environment and learns the consequences of its actions via trial and error. The agent learns to alter its behaviour in response to the reward received due to its actions. <br>
     In RL, an autonomous agent is controlled by the machine learning algorithm and it observes a state s(t) at timestep t. It can then interact with the environment using an action a(t), reaching the state s(t+1) in the process. After reaching each new state, the agent receives a reward associated with that state. The aim of the agent is to find an optimal policy, which is a sequence of actions to reach the goal state and maximizing the rewards gained in the process. 
@@ -52,13 +52,38 @@
     A generalisation of MDPs are partially observable MDPs (POMDPs). A POMDP models an agent decision process in which the system dynamics are determined by an MDP, but the agent cannot directly observe the underlying state. Instead, it must maintain a probability distribution over the set of possible states, based on a set of observations and observation probabilities, and the underlying MDP.
     </p>
  
- <h2>Challenges in RL</h2>
+ <h3>Challenges in RL</h3>
     A summarization of the challenges faced by RL are as follows:
     <ul>
     <li>The optimal policy must be inferred by trial-and-error interaction with the environment as the rewards corresponding to transitions are unknown.
     <li>The observations of the agent depend on its actions and can contain strong temporal correlations.
     <li>Agents must deal with long-range time dependencies:<br>
     Often the consequences of an action only materialise after many transitions of the environment, but these cases are ignored due to the Markov Property.                                                                                       
-    </ul>                                                                                        
+    </ul>                                            
+ 
+ <h2>Deep Reinforcement Learning techniques</h2>
+ 
+ <h3>Deep reinforcement learning using Q-learning</h3>
+ <h4>Introduction of Q-Learning</h4>
+ <p>
+ In this algorithm, the aim of the agent is to learn an optimal policy based on its interaction with the environment.
+ The interaction can be specified with a history which is a sequence of state-action-rewards ⟨s0,a0,r1,s1,a1,r2,s2,a2,r3,s3,a3,r4,s4...⟩.
+ which means that the agent was in state s0 and did action a0, which resulted in it receiving reward r1 and being in state s1, and so on.
+ </p>
+ <p>
+  The aim of the agent is to learn a policy such that its value (usually the discounted reward) is maximized.<br>
+  Q*(s,a), where a is an action and s is a state, is the expected value (cumulative discounted reward) of doing a in state s and then following the optimal policy. <br>
+  Q-learning uses temporal differences to estimate the value of Q*(s,a). In Q-learning, the agent maintains a table of Q[S,A], where S is the set of states and A is the set of actions. Q[s,a] represents its current estimate of Q*(s,a). <br>
+  An experience ⟨s,a,r,s'⟩ provides one data point for the value of Q(s,a). The data point is that the agent received the future value of r+ γV(s'), where V(s') =maxa' Q(s',a'); this is the actual current reward plus the discounted estimated future value. This new data point is called a return. <br>
+  The update for Q[s,a] is as follows:<br>
+  Q[s,a] ←(1-α) Q[s,a] + α(r+ γmaxa' Q[s',a']).
+ </p>
+ 
+ 
+ <h3>References</h3>
+ <ol>
+  <li>https://artint.info/html/ArtInt_265.html</li>
+ </ol>
+ 
  </body>
 </html>
