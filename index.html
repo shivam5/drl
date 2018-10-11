@@ -47,20 +47,20 @@ span:after {
 
 
    <h3>Introduction</h3>
-
-    <p>Reinforcement Learning is the branch of machine learning in which an agent learns by interacting with the environment.<br> 
-    Perception, and representation of the environment is one of the key problems that must be solved before the agent can decide to select an optimal action to take. In reinforcement learning tasks, usually a human expert provides features of the environment based on his knowledge of the task. This causes the lack scalablity and is hence limited to fairly low-dimensional problems.<br>
-    The powerful representation learning properties of deep neural networks has provided us with new tools to overcoming these problems, as they can overcome the curse of dimensionality, by automatically finding compact low-dimensional representations (features) of high-dimensional data (e.g., images, text and audio). 
-    </p>
-    <p>
-    The first, major revolution in DRL, was the development of an algorithm that could learn to play seven Atari 2600 games from the Arcade Learning Environment, which represents the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using reinforcement learning. <br>
-    The second major success of DRL was the development of, AlphaGo, a DRL system that defeated a human world champion in Go.
-    </p>
+    <p>To give a very intuitive explanation of what reinforcement learning is. Imagine a baby that has come across a candle that is lit.
+     So, out of curiosity the baby tries to touch the candle flame and will get hurt. But this experience will make him more cautious,
+     and he will not repeat the action again. </p>
+    <p>This is exactly how reinforcement learning works. An agent learns to do a particular job based on the previous experiences and outcome it receives.
+     Like a child receives spanking and candies, the agent gets negative reward for wrong decision and positive rewards for the right one. This is basically reinforcement. </p>
+     
     
   <h3>Reinforcement Learning</h3>
     <p>
     Reinforcement Learning is mainly based on learning via interaction with the environment. At each step the agent interacts with the environment and learns the consequences of its actions via trial and error. The agent learns to alter its behaviour in response to the reward received due to its actions. <br>
-    In RL, an autonomous agent is controlled by the machine learning algorithm and it observes a state s(t) at timestep t. It can then interact with the environment using an action a(t), reaching the state s(t+1) in the process. After reaching each new state, the agent receives a reward associated with that state. The aim of the agent is to find an optimal policy, which is a sequence of actions to reach the goal state and maximizing the rewards gained in the process. 
+    In RL, an autonomous agent is controlled by the machine learning algorithm and it observes a state s(t) at timestep t. It can then interact with the environment using an action a(t), reaching the state s(t+1) in the process. After reaching each new state, the agent receives a reward associated with that state r(t+1). 
+    The aim of the agent is to find an optimal policy. The policy is the strategy that the agent employs to determine the next action based on the current state. It maps states to actions, the actions that promise the highest reward.
+ 
+     <img src="images/RL_schema.png" alt="Simple RL schema">
     However the problem faced is that the reward obtained at each state is unknown and the agent needs to learn the consequences of its actions by trial and error. Every interaction with the environment yields information, which the agent uses to update its knowledge.
     </p>
     A Reinforcement Learning problem can be represented using a Markov's Decision Process as follows:
@@ -72,7 +72,7 @@ span:after {
     <li> Discount Factor γ ∈ [0,1], where lower values emphasize immediate rewards.</li>
      </ol>
     <br>
-    If the MDP is episodic, i.e., the state is reset after each episode of length T, then the sequence of states, actions and rewards in an episode constitutes a trajectory of the policy. Every trajectory of a policy accumulates rewards from the environment, resulting in the return 
+    If the MDP is episodic, i.e., the state is reset after each episode of length T, then the sequence of states, actions and rewards in an episode constitute a trajectory of the policy. Every trajectory of a policy accumulates rewards from the environment, resulting in the return 
 <p id = "equation">
    R= <span>&Sigma;</span>
  &gamma;<sup>t</sup>r<sub>t+1</sub>
@@ -99,7 +99,16 @@ span:after {
     <li>Agents must deal with long-range time dependencies:<br>
     Often the consequences of an action only materialise after many transitions of the environment, but these cases are ignored due to the Markov Property.                                                                                       
     </ul>                                            
- 
+
+ <h3>Deep reinforcement learning </h3>
+     Perception, and representation of the environment is one of the key problems that must be solved before the agent can decide to select an optimal action to take. In reinforcement learning tasks, usually a human expert provides features of the environment based on his knowledge of the task. This causes the lack scalablity and is hence limited to fairly low-dimensional problems.<br>
+    The powerful representation learning properties of deep neural networks has provided us with new tools to overcoming these problems, as they can overcome the curse of dimensionality, by automatically finding compact low-dimensional representations (features) of high-dimensional data (e.g., images, text and audio). 
+    </p>
+    <p>
+    The first, major revolution in DRL, was the development of an algorithm that could learn to play seven Atari 2600 games from the Arcade Learning Environment, which represents the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using reinforcement learning. <br>
+    The second major success of DRL was the development of, AlphaGo, a DRL system that defeated a human world champion in Go.
+    </p>
+
  <h2>Deep Reinforcement Learning techniques</h2>
  
  <h3>Deep reinforcement learning using Q-learning</h3>
