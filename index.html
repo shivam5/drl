@@ -117,7 +117,7 @@ span:after {
    <p>
     Deep neural network solves the problem of perception and representation of the environment, as convolutional networks are being used to recognize agent's state.
     So, the input would be just raw pixels to the convolutional network (for eg. the screen of a Mario game), the network would extract useful information from the image in order to calculate the reward or probability of the different actions possible. 
-    Whether the agent directly outputs the probability of actions, or it ouputs the rewards for each state-action pair depends the algorithm we are using (policy gradient method or value iteration method). These methods would be discussed in detail in the later sections.
+    Whether the agent directly outputs the probability of actions, or it ouputs the rewards for each state-action pair depends the algorithm we are using (policy gradient method or q learning method). These methods would be discussed in detail in the later sections.
 </p>
 <img src="images/conv_agent.png" alt="DRL policy agent">
 <p> The above image is an illustration of a policy agent. Given the input in raw pixels, it will output the probability of each action, i.e., it maps state to actions.</p>
@@ -174,14 +174,25 @@ and backpropagation through this loss function can be used to update the network
   The term (R<sub>t+1</sub>+γV(s<sub>t+1</sub>)−V(s<sub>t</sub>)) is called the one-step temporal-difference error, 
   We keep updating our estimates of the value function till termination, and according to theory if we do this for a large number of time, we would converge to the optimal measure of the value function.
   
- <li><b>Policy gradient vs Q-learning : </b>
+ <li><b>Policy gradient vs Q-learning : </b>Q-learning and policy gradients are the two major approach used to solve RL problem. Q-learning learns to predict the expected reward of perform an action a in a particular state s, whereas policy gradient directly predicts the action itself.
+  Someone may ask that these two approaches are equivalent as predicting the action with maximum reward (in Q-learning) is equivalent to predicting the probability of taking that action directly.
+  <br>But the fundamental difference is difference in how they approach action selection (both while learning and in the output). 
+  In Q-learning, a single deterministic action is learned from a discrete set of actions by 
+  finding the maximum expected value. Whereas in policy gradient, the goal is to learn a 
+  map from state to action, which can be stochastic, and works in continuous action spaces.
+  <br>As a result, Q-learning fails when the optimal policy is a stochastic one (such as stone/paper/scissor) because
+  Q-learning assumes that a deterministic agent can be optimal.
+  <br>However Q-learning are faster to learn becuase they can use the concept of temporal difference learning, whereas in 
+  policy gradient method the reward is received at termination.
 </ul>
 
  <h3>Challenges in RL</h3>
     A summarization of the challenges faced by RL are as follows:
     <ul>
     <li>The optimal policy must be inferred by trial-and-error interaction with the environment as the rewards corresponding to transitions are unknown.
-    <li>The observations of the agent depend on its actions and can contain strong temporal correlations.
+    <li>Most deep learning algorithms assume that the data samples are independent. 
+     While in RL, the observations of the agent depend on its actions and can contain strong temporal correlations.
+     Hence the dat
     <li>Agents must deal with long-range time dependencies:<br>
     Often the consequences of an action only materialise after many transitions of the environment, but these cases are ignored due to the Markov Property.                                                                                       
     </ul>                                            
