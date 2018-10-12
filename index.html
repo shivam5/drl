@@ -89,7 +89,7 @@ span:after {
     <p>
     A key concept underlying RL is the Markov property:
     <I>"Only the current state affects the next state, or in other words, the future is conditionally independent of the past given the present state."</I><br>
-    This means that any decisions made at s(t) can be based solely on s(t−1), rather than {s(0), s(1), . . . , s(t−1)}.
+    This means that any decisions made at s<sub>t</sub> can be based solely on s<sub>t-1</sub>, rather than {s<sub>0</sub>, s<sub>1</sub>, . . . , s<sub>t-1</sub>}.
     </p>
     <p>
     This assumption is somewhat unrealistic in different scenarios, as it requires the states to be fully observable.<br>
@@ -129,6 +129,11 @@ and backpropagation through this loss function can be used to update the network
 <h4> Common terminologies </h4>
 <p> We will explain some of the common terms that are used in the context of reinforcement learning that would be used in further discussions: </p>
 <ul>
+
+  <li><b>Value function (V) : </b>It is the expected long-term return (considering the discount factor). As opposed to the short-term reward given by reward function R. V<sub>π(s)</sub> is the expected long-term return of the current state under policy π. 
+  
+ <li><b>Q-value or action-value (Q): </b>It is similar to Value, except that it takes an extra parameter i.e., the current action a. Q<sub>π(s, a)</sub> refers to the long-term return of the current state s, taking action a under policy π. Q maps state-action pairs to rewards. 
+
  <li><b>Model based vs Model free reinforcement learning : </b>We represented RL problem as an MDP problem which can be characterised by (S,A,R,T). 
   So, if we know all the components of this MDP, we can compute the optimal policy without actual running in an environment. It would reduce to a planning problem, and there are classic planning algorithms for MDPs such as value iteration, policy iteration, etc.
   <br>
@@ -137,8 +142,8 @@ and backpropagation through this loss function can be used to update the network
   So, if the agent doesn't know T and R, how will it find the optimal policy? There are 2 ways to do this:
   <ul>
    <li>Model based approaches : The agent can learn a model of the environment, i.e., it can learn T and R functions from its observations.
-    That is, if the agent is currently in state s1 and takes action a1, the environment transition to state s2 given reward r2,
-    this information will be used to improve the current estimate of T(s2|s1,a1) and R(s1,a1). Following this iterative approach, a model for the environment can be learned.
+    That is, if the agent is currently in state s<sub>1</sub> and takes action a<sub>1</sub>, the environment transition to state s<sub>2</sub> given reward r<sub>2</sub>,
+    this information will be used to improve the current estimate of T(s<sub>2</sub>|s<sub>1</sub>,a<sub>1</sub>) and R(s<sub>1</sub>,a<sub>1</sub>). Following this iterative approach, a model for the environment can be learned.
     After that, a planning algorithm can be used on the learned model to find a good policy. 
     <br>Such approaches which learn the model first are known as model-based RL algorithms.
     <li>Model free approaches : It turns out that it is not necessary to learn the model in order to learn a good policy. One of the most famous example of this approach would be that of
@@ -152,10 +157,24 @@ and backpropagation through this loss function can be used to update the network
    <li>On-policy learning is analogous to explotation. In on-policy learning, the action which is sampled for learning (iterative updates) is the action from the current policy.
     <li>In off-policy learning, the action selected for the next iteration is not from the current policy. The policy used to generate behaviour, called the behaviour policy, may be unrelated to the policy that is evaluated and improved, called the estimation policy.
   </ul>
-   
- <li><b>Temporal difference learning</b>
   
- <li><b>Policy gradient vs Q-learning</b>
+  
+ <li><b>Temporal difference learning : </b>It is a central concept in reinforcement learning. Let us give an intuition for the concept.
+  <br>
+  Consider you want to make a model to predict the price of a particular stock. Finally, we want a prediction model which can predict what the price of the stock would be after an hour.
+  The naive approach would be to make a prediction model for predicting the stock price after an hour, wait for an hour and update the model using the error.
+  What temporal difference learning suggests is to not wait for an hour, but instead iteratively update the model by predicting the stock price every other minute.
+  <br>
+  We initialize the value function V at each state randomly. This is our initial estimate.
+  After this we follow the policy π, going from s<sub>t</sub> to s<sub>t+1</sub> and getting reward R<sub>t+1</sub>.
+  We will update our value function V(s<sub>t</sub>) based on this one step reward (instead of waiting for termination and getting final reward), using simple update rule:
+  <br>
+  V(s<sub>t</sub>)←V(s<sub>t</sub>)+α(R<sub>t+1</sub>+γV(s<sub>t+1</sub>)−V(s<sub>t</sub>))
+  <br>
+  The term (R<sub>t+1</sub>+γV(s<sub>t+1</sub>)−V(s<sub>t</sub>)) is called the one-step temporal-difference error, 
+  We keep updating our estimates of the value function till termination, and according to theory if we do this for a large number of time, we would converge to the optimal measure of the value function.
+  
+ <li><b>Policy gradient vs Q-learning : </b>
 </ul>
 
  <h3>Challenges in RL</h3>
