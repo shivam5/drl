@@ -109,8 +109,21 @@ span:after {
     The second major success of DRL was the development of, AlphaGo, a DRL system that defeated a human world champion in Go.
     </p>
     <p>
-    So, where do the neural networks fit in? 
+    So, where do the neural networks fit in? In real life when we are the agents, we perceive the environment through our senses (eyes, nose, etc.), understand the state we are in, then we evaluate different actions and calculate the reward for each one of them.
+     In DRL, neural networks are the agents that are responsible to map different sensory inputs to the reward values that would allow the optimal policy to be deduced. Neural networks use their coefficients to approximate the function realting the inputs to the outputs,
+     it finds the right coefficients (or weights) by iteratively descending through the loss function gradients.
 </p>
+   <p>
+    Deep neural network also solves the problem of perception and representation of the environment, as convolutional networks are being used to recognize agent's state.
+    So, the input would be just raw pixels to the convolutional network (for eg. the screen of a Mario game), the network would extract useful information from the image in order to calculate the reward or probability of the different actions possible. 
+    Whether the agent directly outputs the probability of actions, or it ouputs the rewards for each state-action pair depends the algorithm we are using (policy gradient method or value iteration method). These methods would be discussed in detail in the later sections.
+</p>
+<img src="images/conv_agent.png" alt="DRL policy agent">
+<p> The above image is an illustration of a policy agent. Given the input in raw pixels, it will output the probability of each action, i.e., it maps state to actions.</p>
+Initially the weights of the network are initialized randomly. The learning takes place from the feedback of the environment, the neural network can use the difference between the ground truth reward (from the environment) and its expected reward (calculated by the network) as the loss function, 
+and backpropagation through this loss function can be used to update the network weights to improve is interpretation.
+</p>
+ 
 
  <h3>Challenges in RL</h3>
     A summarization of the challenges faced by RL are as follows:
