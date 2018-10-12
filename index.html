@@ -68,7 +68,7 @@ span:after {
     <ol>
     <li> A set of states S. A state s is the situation in which the agent finds itself. For an agent who is learning to walk, the state would be position of its 2 legs. For an agent playing chess, the positions of all the pieces on the board would be the state.</li>
     <li> Set of actions(per state) 𝐴. An action is what an agent can do in each state. Given the agent who is learning to walk, the actions would include taking steps within a certain distance.</li>
-    <li> Transitions 𝑇(𝑠, 𝑎, 𝑠’), mapping the state-action pair at time t to its resulting states.</li>
+    <li> Transitions 𝑇(𝑠, 𝑎, 𝑠’), mapping the state-action pair at time t to its resulting states. It specifies the probablity that environment would transition to s', if the agent takes the action a when it is in state s.</li>
     <li> Reward function 𝑅(𝑠, 𝑎, 𝑠’), representing the rewards for a particular transition. It is basically a feedback from the environment and is measures the success or failure of an agent's actions. For example, when mario touches some coins he wins positive reward.</li>
     <li> Discount Factor γ ∈ [0,1], where lower values emphasize immediate rewards. It makes future rewards worth less than immediate rewards so that the agent does not delay necesarry actions.</li>
      </ol>
@@ -105,16 +105,17 @@ span:after {
     <p>
      DRL was first popularised by Gerry Tesauro at IBM in the early 1990s when he introduced the famous TD-Gammon program which combined neural networks with
      temporal-difference learning (explained later) to train an agent that would play world class backgammon.
+     <br>
      The first, major revolution in DRL, was the development of an algorithm that could learn to play seven Atari 2600 games from the Arcade Learning Environment, which represents the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using reinforcement learning. <br>
     The second major success of DRL was the development of, AlphaGo, a DRL system that defeated a human world champion in Go.
     </p>
     <p>
     So, where do the neural networks fit in? In real life when we are the agents, we perceive the environment through our senses (eyes, nose, etc.), understand the state we are in, then we evaluate different actions and calculate the reward for each one of them.
-     In DRL, neural networks are the agents that are responsible to map different sensory inputs to the reward values that would allow the optimal policy to be deduced. Neural networks use their coefficients to approximate the function realting the inputs to the outputs,
+     In DRL, neural networks are the agents that are responsible to map different sensory inputs to the output that would allow the optimal policy to be deduced. Neural networks use their coefficients to approximate the function realting the inputs to the outputs,
      it finds the right coefficients (or weights) by iteratively descending through the loss function gradients.
 </p>
    <p>
-    Deep neural network also solves the problem of perception and representation of the environment, as convolutional networks are being used to recognize agent's state.
+    Deep neural network solves the problem of perception and representation of the environment, as convolutional networks are being used to recognize agent's state.
     So, the input would be just raw pixels to the convolutional network (for eg. the screen of a Mario game), the network would extract useful information from the image in order to calculate the reward or probability of the different actions possible. 
     Whether the agent directly outputs the probability of actions, or it ouputs the rewards for each state-action pair depends the algorithm we are using (policy gradient method or value iteration method). These methods would be discussed in detail in the later sections.
 </p>
@@ -123,7 +124,39 @@ span:after {
 Initially the weights of the network are initialized randomly. The learning takes place from the feedback of the environment, the neural network can use the difference between the ground truth reward (from the environment) and its expected reward (calculated by the network) as the loss function, 
 and backpropagation through this loss function can be used to update the network weights to improve is interpretation.
 </p>
- 
+<p> We would be discussing some of the papers of Deep Reinforcement Learning in detail in later sections to more deeply understand the methodology.</p>
+
+<h4> Common terminologies </h4>
+<p> We will explain some of the common terms that are used in the context of reinforcement learning that would be used in further discussions: </p>
+<ul>
+ <li><b>Model based vs Model free reinforcement learning : </b>We represented RL problem as an MDP problem which can be characterised by (S,A,R,T). 
+  So, if we know all the components of this MDP, we can compute the optimal policy without actual running in an environment. It would reduce to a planning problem, and there are classic planning algorithms for MDPs such as value iteration, policy iteration, etc.
+  <br>
+  But what makes the RL problem different from a planning problem is that the elements of the MDP are not usually known. More specifically the transition function T (how the environment would change in effect to an action), or the reward function R is not known a-priori. So, the agent has to perform action and observe the feedback from the environment.
+  <br>
+  So, if the agent doesn't know T and R, how will it find the optimal policy? There are 2 ways to do this:
+  <ul>
+   <li>Model based approaches : The agent can learn a model of the environment, i.e., it can learn T and R functions from its observations.
+    That is, if the agent is currently in state s1 and takes action a1, the environment transition to state s2 given reward r2,
+    this information will be used to improve the current estimate of T(s2|s1,a1) and R(s1,a1). Following this iterative approach, a model for the environment can be learned.
+    After that, a planning algorithm can be used on the learned model to find a good policy. 
+    <br>Such approaches which learn the model first are known as model-based RL algorithms.
+    <li>Model free approaches : It turns out that it is not necessary to learn the model in order to learn a good policy. One of the most famous example of this approach would be that of
+     Q-learning (explained in detail later) which directly estimates the Q-values i.e. the utility value of each action in each state through the experiences. A policy can then be derived by choosing the action with the highest Q-value in the current state.
+     These approaches which learn a policy without actually learning the model are model-free approaches.
+  </ul>
+  
+ <li><b>Off-policy vs on-policy learning : </b>There is a famous exploration vs exploitation dilemma in RL and an agent must strike
+  a balance between the two phenomenon. Exploitation is to make the best decision given the current information, and exploration is gathering more information.
+  <ul>
+   <li>On-policy learning is analogous to explotation. In on-policy learning, the action which is sampled for learning (iterative updates) is the action from the current policy.
+    <li>In off-policy learning, the action selected for the next iteration is not from the current policy. The policy used to generate behaviour, called the behaviour policy, may be unrelated to the policy that is evaluated and improved, called the estimation policy.
+  </ul>
+   
+ <li><b>Temporal difference learning</b>
+  
+ <li><b>Policy gradient vs Q-learning</b>
+</ul>
 
  <h3>Challenges in RL</h3>
     A summarization of the challenges faced by RL are as follows:
