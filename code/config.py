@@ -1,7 +1,7 @@
 import numpy as np
 
 class config:
-    num_episodes = 70000
+    num_episodes = 50000
     initial_episode = 0
 
     max_time = np.inf
