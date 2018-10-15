@@ -43,11 +43,17 @@ span:after {
    Makes browser default styles more consistent, creating a canvas that you
    should modify for your project. Fully commented. Last update: 2011-10-02.
 */
-
+@import url(https://fonts.googleapis.com/css?family=Raleway);
 /* CONTAINERS */
 body {
-  margin: 0; padding: 0; /* Browsers have default 8px margins _or_ padding! */
-  font-size: 100%; /* See: http://www.informationarchitects.jp/en/100e2r/ */
+margin-top:2%;
+margin-right:20%;
+margin-bottom:2%;
+margin-left:20%;
+   font-family: Raleway, sans-serif; 
+ 
+ padding: 20px; /* Browsers have default 8px margins _or_ padding! */
+  font-size: 120%; /* See: http://www.informationarchitects.jp/en/100e2r/ */
   line-height: 1.5; /* Default value, `normal`, depends on the font */
 }
 /* HTML5 blocks - needed in older browsers */
@@ -78,11 +84,12 @@ blockquote {
 figure {
   margin: 1em 0; /* Default in HTML5 spec: `1em 40px` */
 }
+   img{ text-align: center; }
 
 /* LINKS */
 /* Default browser styles (from Firefox, similar in most browsers) */
 a {
-  text-decoration: underline;
+  text-decoration: none;
 }
 a:link {color: #0000EE;}
 a:visited {color: #551A8B;}
@@ -391,6 +398,8 @@ in a data-set D = e<sub>1</sub>; :::; e<sub>N</sub>, pooled over many episodes i
  <br>
  During the inner loop of the algorithm, we apply Q-learning updates, or minibatch updates, to samples of experience,
 e ∼ D, drawn at random from the pool of stored samples. 
+ <br>
+ <br>
  <script src="https://gist.github.com/shivam5/bc3e905ef81a02ed71c41b05b59d9a36.js"></script>
 </p>
 
