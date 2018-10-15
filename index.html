@@ -6,6 +6,8 @@
    p#equation {
     height: 50px;
     line-height: 50px;
+    text-align: center;
+    font-size: 150%;
 }
 
 span {
@@ -84,8 +86,13 @@ blockquote {
 figure {
   margin: 1em 0; /* Default in HTML5 spec: `1em 40px` */
 }
-   img{ text-align: center; }
-
+   
+   img{ 
+       display: block;
+    margin-left: auto;
+    margin-right: auto;
+   }
+ 
 /* LINKS */
 /* Default browser styles (from Firefox, similar in most browsers) */
 a {
@@ -150,7 +157,8 @@ td:first-child, th:first-child {
 
  <body>
   
-    <h1>Deep Reinforcement Learning</h1>
+    <h1>Deep Reinforcement Learning Tutorial</h1>
+  <h4>By <a href="https://www.linkedin.com/in/shivam-mittal/">Shivam Mittal</a></h4>
      
 
   
@@ -182,17 +190,20 @@ td:first-child, th:first-child {
      </ol>
     <br>
     If the MDP is episodic, i.e., the state is reset after each episode of length T, then the sequence of states, actions and rewards in an episode constitute a trajectory of the policy. Every trajectory of a policy accumulates rewards from the environment, resulting in the return 
-<p id = "equation">
+
+  <p id = "equation">
    R= <span>&Sigma;</span>
  &gamma;<sup>t</sup>r<sub>t+1</sub>
 </p>
 <br>
   A policy is the strategy that the agent employs to determine the next action based on the current state. It maps a state to an action.
-  <br>
+  <p id = "equation">
+
   a = π(s)
-  <br>
+  </p>
   The goal of RL is to find an optimal policy, π<sup>∗</sup> , which achieves the maximum expected return from all states
- <br> π<sup>∗</sup> = argmax<sub>π</sub> E[R|π]<br>
+   <p id = "equation">
+    π<sup>∗</sup> = argmax<sub>π</sub> E[R|π]</p>
     It is also possible to consider non-episodic MDPs, where T = ∞. In this situation, γ < 1 prevents an infinite sum of rewards from being accumulated.
     <p>
     A key concept underlying RL is the Markov property:
@@ -276,9 +287,9 @@ and backpropagation through this loss function can be used to update the network
   We initialize the value function V at each state randomly. This is our initial estimate.
   After this we follow the policy π, going from s<sub>t</sub> to s<sub>t+1</sub> and getting reward R<sub>t+1</sub>.
   We will update our value function V(s<sub>t</sub>) based on this one step reward (instead of waiting for termination and getting final reward), using simple update rule:
-  <br>
+    <p id = "equation">
   V(s<sub>t</sub>)←V(s<sub>t</sub>)+α(R<sub>t+1</sub>+γV(s<sub>t+1</sub>)−V(s<sub>t</sub>))
-  <br>
+  </p>
   The term (R<sub>t+1</sub>+γV(s<sub>t+1</sub>)−V(s<sub>t</sub>)) is called the one-step temporal-difference error, 
   We keep updating our estimates of the value function till termination, and according to theory if we do this for a large number of time, we would converge to the optimal measure of the value function.
   
@@ -330,8 +341,9 @@ and backpropagation through this loss function can be used to update the network
   Q<sup>*</sup>(s,a), where a is an action and s is a state, is the expected value (cumulative discounted reward) of doing a in state s and then following the optimal policy. <br>
   Q-learning uses temporal differences to estimate the value of Q*(s,a). In Q-learning, the agent maintains a table of Q[S,A], where S is the set of states and A is the set of actions. Q[s,a] represents its current estimate of Q*(s,a). <br>
   An experience ⟨s,a,r,s'⟩ provides one data point for the value of Q(s,a). The data point is that the agent received the future value of r+ γV(s'), where V(s') =max<sub>a'</sub> Q(s',a'); this is the actual current reward plus the discounted estimated future value. This new data point is called a return. <br>
-  The update for Q[s,a] is as follows:<br>
-  Q[s,a] ←(1-α) Q[s,a] + α(r+ γmax<sub>a'</sub> Q[s',a']).
+  The update for Q[s,a] is as follows:<p id = "equation">
+  Q[s,a] ←(1-α) Q[s,a] + α(r+ γmax<sub>a'</sub> Q[s',a'])
+   </p>
  </p>
 
 <h4>Playing Atari with Deep Reinforcement Learning</h4>
@@ -364,20 +376,23 @@ As a result, standard reinforcement learning methods for MDPs can be applied.
 </p>
 <p>Now, that the environment, state, actions, and rewards are defined. The Q-learning algorithm that was explained above needs
  to be applied. But it is very impractical to maintain a table Q[S,A] since the state space is extremely large (consisting of game sequences).
- Hence, function approximator is used to estimate the action-value function.<br>Q(s; a; θ) ≈ Q<sup>∗</sup>(s; a)<br>
+ Hence, function approximator is used to estimate the action-value function.<p id = "equation">Q(s; a; θ) ≈ Q<sup>∗</sup>(s; a)</p>
  A Deep network parameterized by θ is used as the function approximator. The DQN (Deep Q-network) is trained by minimising a sequence of loss functions Li(θi) that changes at each
 iteration i:
- <br>
+ <p id = "equation">
  L<sub>i</sub> (θ<sub>i</sub>) = E<sub>s;a∼ρ(·)</sub> [(y<sub>i</sub> − Q (s; a; θ<sub>i</sub>))<sup2</sup>]
- <br>
- where y<sub>i</sub> = E<sub>s'∼E</sub> [r + γ max<sub>a'</sub> Q(s'; a'; θ<sub>i−1)</sub>|s; a] is the target for iteration i and ρ(s; a) is a
+ </p>
+ where 
+<p id = "equation">y<sub>i</sub> = E<sub>s'∼E</sub> [r + γ max<sub>a'</sub> Q(s'; a'; θ<sub>i−1)</sub>|s; a] 
+</p>is the target for iteration i and ρ(s; a) is a
 probability distribution over sequences s and actions a that we refer to as the behaviour distribution.
  <br>
  The implementation of this loss function in the code will be shown later.
  <br>
  Differentiating the loss function with respect to the weights we arrive at the following gradient
- <br>
+ <p id = "equation">
  &Delta;<sub>θ<sub>i</sub></sub>L<sub>i</sub> (θ<sub>i</sub>) = E<sub>s,a∼ρ(·);s'∼E</sub> [(r + γ max <sub>a'</sub> Q(s', a', θ<sub>i−1</sub>) − Q(s, a; θ<sub>i</sub>)) &Delta;<sub>θ<sub>i</sub></sub>Q(s, a; θ<sub>i</sub>)]
+</p>
 </p>
   
 <p>
