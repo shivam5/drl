@@ -1,3 +1,0 @@
-sudo apt-get install xvfb libav-tools xorg-dev libsdl2-dev swig cmake
-pip install gym
-pip install gym[atari]
