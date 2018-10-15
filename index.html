@@ -230,6 +230,8 @@ and backpropagation through this loss function can be used to update the network
  <p>The paper shows that a Convolutional Neural Network (CNN) can be used to learn an optimal policy, and it can also overcome the challenges
   of reinforcement learning that were explained earlier. Since this deep network is trained wih a variant of Q-learning (using gradient descent methods), the network is known as <b>Deep Q-network (DQN)</b>.
   </p>
+<p>We implemented this paper, and the <a href="https://github.com/shivam5/drl/tree/master/code">code</a> can be found <a href="https://github.com/shivam5/drl/tree/master/code">here</a>.
+</p> 
 
 <p>The agent interacts with an environment E, which in our case is the Atari emulator. <br>
  The agent selects an action from all the legal actions possible which is passed to the Atari emulator,
@@ -258,20 +260,67 @@ probability distribution over sequences s and actions a that we refer to as the 
  <br>
  Differentiating the loss function with respect to the weights we arrive at the following gradient
  <br>
- &Delta;<sub>θ<sub>i</sub></sub>L<sub>i</sub< (θ<sub>i</sub>) = E<sub>s,a∼ρ(·);s'∼E</sub> [(r + γ max <sub>a'</sub> Q(s', a', θ<sub>i−1</sub>) − Q(s, a; θ<sub>i</sub>)) &delta;<sub>θ<sub>i</sub></sub>Q(s, a; θ<sub>i</sub>)]
+ &Delta;<sub>θ<sub>i</sub></sub>L<sub>i</sub> (θ<sub>i</sub>) = E<sub>s,a∼ρ(·);s'∼E</sub> [(r + γ max <sub>a'</sub> Q(s', a', θ<sub>i−1</sub>) − Q(s, a; θ<sub>i</sub>)) &Delta;<sub>θ<sub>i</sub></sub>Q(s, a; θ<sub>i</sub>)]
 </p>
   
+<p>
+Note that this algorithm is model-free: it solves the reinforcement learning task directly using samples from the emulator E, without explicitly constructing an estimate of E. 
+ <br>It is also off-policy: it learns about the greedy strategy a = max<sub>a</sub> Q(s; a; θ), while following a behaviour distribution that
+ensures adequate exploration of the state space. In practice, the behaviour distribution is often selected by an &epsilon;-greedy strategy that follows the greedy strategy with probability 1 − &epsilon; and selects a
+ random action with probability &epsilon;. </p>
+
+<p>To alleviate the problems of correlated data and non-stationary distributions, a technique known as experience replay mechanism 
+ is used which randomly samples previous transitions, and thereby smooths the training distribution over many past behaviors.
+ Agent’s experiences at each time-step, e<sub>t</sub> = (s<sub>t</sub>; a<sub>t</sub>; r<sub>t</sub>; s<sub>t+1</sub>)
+in a data-set D = e<sub>1</sub>; :::; e<sub>N</sub>, pooled over many episodes into a replay memory. During the inner
+loop of the algorithm, we apply Q-learning updates, or minibatch updates, to samples of experience,
+e ∼ D, drawn at random from the pool of stored samples. 
+</p>
+
+<p> The advantages of the experience-replay mechanism are as given below:
+  <ul>
+   <li>Since each experience is stored in memory, it is used in more than one update leading to greater data efficiency.
+    <li>Learning directly from consecutive samples is inefficient, due to the strong correlations
+between the samples; randomizing the samples breaks these correlations and therefore reduces the
+variance of the updates.
+     <li>Third, when learning on-policy the current parameters determine the next
+data sample that the parameters are trained on. For example, if the maximizing action is to move left
+then the training samples will be dominated by samples from the left-hand side; if the maximizing
+action then switches to the right then the training distribution will also switch.
+</ul>
+By using experience replay the behavior distribution is averaged
+over many of its previous states, smoothing out learning and avoiding oscillations or divergence in
+the parameters. 
+</p>
+
+Based on the above discussion, the final algorithm is as given in the image:
+<img src="images/algo.png" alt="Algorithm">
+
+<h4>Pre-processing and model architecture</h4>
+<p>
+ The Atari emulator gives an image of 210×160 pixels image. The raw frames are preprocessed by first converting their RGB representation
+to gray-scale and down-sampling it to a 110×84 image. <br>
+The paper also crops this image to 84×84 because their GPU implementation of conv2d operation requires squared input, but we have skipped this step.
+</p>
+<p>
+Since Q maps history-action pairs to scalar estimates of their Q-value, the history and the action should have been used as inputs
+to the neural network.The main drawback of this type of architecture is that a separate forward pass is required to compute the Q-value of each action,
+resulting in a cost that scales linearly with the number of actions. The paper instead use an architecture
+in which there is a separate output unit for each possible action, and only the state representation is
+an input to the neural network.
+</p>
+<p>The archiecture of the model used is explained by the keras code below:</p>
+
+<script src="https://gist.github.com/shivam5/1c400173c4367855de808887dc88649e.js"></script>
 
 
 
 
+<h2>4. Experiments</h2>
 
+<h2>5. Observations</h2>
 
-Explain how the challenges of RL are solved (in introduction of the paper)
-
-
-
-
+<h2>6. State of the art extensions</h2>
 <h3>Asynchronous Methods for Deep Reinforcement Learning</h3>
   <p>
   Current Deep RL algorithms based on experience replay have shown a lot of success but they have some drawbacks such as higher memoury and computation requirements,
