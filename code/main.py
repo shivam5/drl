@@ -79,5 +79,5 @@ for episode_no in range(config.initial_episode, config.num_episodes):
     #       .format(episode_no, config.num_episodes, score, pos_score, agent.epsilon))
     # agent.train()
 
-    if episode_no % 250 == 0:
+    if episode_no % 100 == 0:
         agent.save("weights/breakoutweight"+str(episode_no)+".h5")
