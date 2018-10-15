@@ -45,15 +45,15 @@ span:after {
     <h1>Deep Reinforcement Learning</h1>
      
 
-
-   <h3>Introduction</h3>
+  
+   <h2>1. Introduction</h2>
     <p>To give a very intuitive explanation of what reinforcement learning is. Imagine a baby that has come across a candle that is lit.
      So, out of curiosity the baby tries to touch the candle flame and will get hurt. But this experience will make him more cautious,
      and he will not repeat the action again. </p>
     <p>This is exactly how reinforcement learning works. An agent learns to do a particular job based on the previous experiences and outcome it receives.
      Like a child receives spanking and candies, the agent gets negative reward for wrong decisions and positive rewards for the right ones. This is basically reinforcement. </p>
      
-    
+   <h2>2. Background Material</h2>
   <h3>Reinforcement Learning (RL)</h3>
     <p>
     Reinforcement Learning (RL) is mainly based on learning via interaction with the environment. At each step the agent interacts with the environment and learns the consequences of its actions via trial and error. The agent learns to alter its behaviour in response to the reward received due to its actions. <br>
@@ -192,39 +192,82 @@ and backpropagation through this loss function can be used to update the network
     <li>The optimal policy must be inferred by trial-and-error interaction with the environment as the rewards corresponding to transitions are unknown.
     <li>Most deep learning algorithms assume that the data samples are independent. 
      While in RL, the observations of the agent depend on its actions and can contain strong temporal correlations.
-     Hence the dat
+     For example, if a robot decides to explore one of the two paths available, the observations will be dependent on the previous observations and contains correlations, and hence the assumption of independent data samples is broken.
     <li>Agents must deal with long-range time dependencies:<br>
-    Often the consequences of an action only materialise after many transitions of the environment, but these cases are ignored due to the Markov Property.                                                                                       
+    Often the consequences of an action only materialise after many transitions of the environment.   
+     For example, in a game of ping-pong after going through many frames and actions, a reward would be obtained depending on who wins the point.
     </ul>                                            
 
 
- <h2>Deep Reinforcement Learning techniques</h2>
+ <h2>3. Methodology</h2>
  
  <h3>Deep reinforcement learning using Q-learning</h3>
- <h4>Introduction of Q-Learning</h4>
- <p>
- In this algorithm, the aim of the agent is to learn an optimal policy based on its interaction with the environment.
- The interaction can be specified with a history which is a sequence of state-action-rewards ⟨s0,a0,r1,s1,a1,r2,s2,a2,r3,s3,a3,r4,s4...⟩.
- which means that the agent was in state s0 and did action a0, which resulted in it receiving reward r1 and being in state s1, and so on.
- </p>
- <p>
-  The aim of the agent is to learn a policy such that its value (usually the discounted reward) is maximized.<br>
-  Q<sup>*</sup>(s,a), where a is an action and s is a state, is the expected value (cumulative discounted reward) of doing a in state s and then following the optimal policy. <br>
-  Q-learning uses temporal differences to estimate the value of Q*(s,a). In Q-learning, the agent maintains a table of Q[S,A], where S is the set of states and A is the set of actions. Q[s,a] represents its current estimate of Q*(s,a). <br>
-  An experience ⟨s,a,r,s'⟩ provides one data point for the value of Q(s,a). The data point is that the agent received the future value of r+ γV(s'), where V(s') =maxa' Q(s',a'); this is the actual current reward plus the discounted estimated future value. This new data point is called a return. <br>
-  The update for Q[s,a] is as follows:<br>
-  Q[s,a] ←(1-α) Q[s,a] + α(r+ γmax<sub>a'</sub> Q[s',a']).
- </p>
- <h4>Playing Atari with Deep Reinforcement Learning</h4>
- <p>Mnih et al presented the first deep learning model (Playing Atari with Deep Reinforcement Learning) 
-  leveraging reinforcement learning. The model
+ <p> We would be talking about the paper "Playing Atari with Deep Reinforcement Learning" by Mnih et al. The model
   directly learns optimal policy from high-dimensional sensory input (not any hand-crafted representation).
   They use a convolutional neural network which is trained using a variant of Q-learning. The input to their model
   is the raw pixels and output is the value function estimating future rewards.</p>
  <p>They applied their method to seven Atari 2600 games from the Arcade Learning Environment. This algorithm outperforms
   all previous approaches on six of the seven games, and outperforms humans in three of the games</p>
 
-  <h3>Asynchronous Methods for Deep Reinforcement Learning</h3>
+<img src="atari_games.png" alt="Atari games">
+
+ <h4>Introduction of Q-Learning</h4>
+ <p>
+ In this algorithm, the aim of the agent is to learn an optimal policy based on its interaction with the environment.
+ The interaction can be specified with a history which is a sequence of state-action-rewards ⟨s<sub>0</sub>,a<sub>0</sub>,r<sub>1</sub>,s<sub>1</sub>,a<sub>1</sub>,r<sub>2</sub>,s<sub>2</sub>,a<sub>2</sub>,r<sub>3</sub>,s<sub>3</sub>,a<sub>3</sub>,r<sub>4</sub>,s<sub>4</sub>...⟩.
+ which means that the agent was in state s<sub>0</sub> and did action a<sub>0</sub>, which resulted in it receiving reward r<sub>1</sub> and being in state s<sub>1</sub>, and so on.
+ </p>
+ <p>
+  The aim of the agent is to learn a policy such that its value (usually the discounted reward) is maximized.<br>
+  Q<sup>*</sup>(s,a), where a is an action and s is a state, is the expected value (cumulative discounted reward) of doing a in state s and then following the optimal policy. <br>
+  Q-learning uses temporal differences to estimate the value of Q*(s,a). In Q-learning, the agent maintains a table of Q[S,A], where S is the set of states and A is the set of actions. Q[s,a] represents its current estimate of Q*(s,a). <br>
+  An experience ⟨s,a,r,s'⟩ provides one data point for the value of Q(s,a). The data point is that the agent received the future value of r+ γV(s'), where V(s') =max<sub>a'</sub> Q(s',a'); this is the actual current reward plus the discounted estimated future value. This new data point is called a return. <br>
+  The update for Q[s,a] is as follows:<br>
+  Q[s,a] ←(1-α) Q[s,a] + α(r+ γmax<sub>a'</sub> Q[s',a']).
+ </p>
+
+<h4>Playing Atari with Deep Reinforcement Learning</h4>
+ <p>The paper shows that a Convolutional Neural Network (CNN) can be used to learn an optimal policy, and it can also overcome the challenges
+  of reinforcement learning that were explained earlier. Since this deep network is trained wih a variant of Q-learning (using gradient descent methods), the network is known as <b>Deep Q-network (DQN)</b>.
+  </p>
+
+<p>The agent interacts with an environment E, which in our case is the Atari emulator. <br>
+ The agent selects an action from all the legal actions possible which is passed to the Atari emulator,
+ the internal state and the game score is modified. However, the internal state cannot be observed by the agent, instead it just
+ observes and image x<sub>t</sub> from the emulator which is the current screen. It also receives a reward r<sub>t</sub> which represents the change in game score.
+</p>
+ 
+<p> 
+ Since the agent only observes images of the current screen, it is impossible to fully understand the current situation
+ from only the current screen x<sub>t</sub>. Therefore, the state is the sequence of actions and observations, 
+ s<sub>t</sub> = x<sub>1</sub>; a<sub>1</sub>; x<sub>2</sub>; :::; a<sub>t-1</sub>; x<sub>t</sub>.
+Also, all sequences in the emulator are assumed to terminate in a finite number of time-steps, hence this gives
+rise to a large but finite Markov decision process (MDP) in which each sequence is a distinct state.
+As a result, standard reinforcement learning methods for MDPs can be applied.
+</p>
+<p>Now, that the environment, state, actions, and rewards are defined. The Q-learning algorithm that was explained above needs
+ to be applied. But it is very impractical to maintain a table Q[S,A] since the state space is extremely large (consisting of game sequences).
+ Hence, function approximator is used to estimate the action-value function.<br>Q(s; a; θ) ≈ Q<sup>∗</sup>(s; a)<br>
+ A Deep network parameterized by θ is used as the function approximator. The DQN (Deep Q-network) is trained by minimising a sequence of loss functions Li(θi) that changes at each
+iteration i:
+ <br>
+ L<sub>i</sub> (θ<sub>i</sub>) = E<sub>s;a∼ρ(·)</sub> [(y<sub>i</sub> − Q (s; a; θ<sub>i</sub>))<sup2</sup>]
+ <br>
+ where 
+</p>
+  
+
+
+
+
+
+
+Explain how the challenges of RL are solved (in introduction of the paper)
+
+
+
+
+<h3>Asynchronous Methods for Deep Reinforcement Learning</h3>
   <p>
   Current Deep RL algorithms based on experience replay have shown a lot of success but they have some drawbacks such as higher memoury and computation requirements,
   and requirement of off-policy learning algorithms. This paper proposes an algorithm where we execute multiple agents asynchronously
