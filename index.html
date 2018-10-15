@@ -294,7 +294,7 @@ the parameters.
 </p>
 
 Based on the above discussion, the final algorithm is as given in the image:
-<img src="images/algo.png" alt="Algorithm">
+<img src="images/algo.jpg" alt="Algorithm">
 
 <h4>Pre-processing and model architecture</h4>
 <p>
@@ -315,10 +315,26 @@ an input to the neural network.
 
 
 
-
 <h2>4. Experiments</h2>
+We trained our DQN on the Atari game - Breakout. The network architecture, and preprocessing is used as explained above.
+<br>
+The hyperparameters used are explained below:
+<script src="https://gist.github.com/shivam5/c9b6c5831f1e3522c70b9f7f8e67cc0b.js"></script>
+
+Also, a simple frame-skipping technique was used. More precisely, the agent sees and selects actions on every kth frame instead of every
+frame, and its last action is repeated on skipped frames. Since running the emulator forward for one
+step requires much less computation than having the agent select an action, this technique allows
+the agent to play roughly k times more games without significantly increasing the runtime.
+
 
 <h2>5. Observations</h2>
+After training the DQN, it succesfully learns to play the breakout game as shown by the gif:
+<br>
+<img src="images/game.gif" alt="playing breakout">
+
+<br>
+In the paper, it is shown that this approach gave state-of-the-art results in six of the seven games it was tested on, with no adjustment of the
+architecture or hyperparameters.
 
 <h2>6. State of the art extensions</h2>
 <h3>Asynchronous Methods for Deep Reinforcement Learning</h3>
