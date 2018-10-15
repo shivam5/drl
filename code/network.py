@@ -19,18 +19,22 @@ class DQN_network:
 
     def predict_action(self, state):
         state = np.reshape(state, config.network_batch_shape)
+        state = np.float32(state / 255.0)
         return np.argmax(self.model.predict(state))
 
     def predict(self, state):
         state = np.reshape(state, config.network_batch_shape)
+        state = np.float32(state / 255.0)
         return self.model.predict(state)
 
     def output(self, state):
         state = np.reshape(state, config.network_batch_shape)
+        state = np.float32(state / 255.0)
         return self.model.predict(state)
 
     def train(self, state, true_target):
         state = np.reshape(state, config.network_batch_shape)
+        state = np.float32(state / 255.0)
         self.model.fit(state, true_target, epochs=1, verbose=0)
 
     def save_weights(self, file_name):

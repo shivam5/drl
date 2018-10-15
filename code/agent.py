@@ -65,7 +65,6 @@ class DQN_agent:
         image = image.resize(config.image_size)
         im_size = (image.size[1], image.size[0])
         converted_image = np.asarray(image.getdata(), dtype=np.uint8).reshape(im_size)
-        converted_image = np.float32(converted_image / 255.0)
         return converted_image
 
     def construct_new_state(self, curr_state, new_observation):
