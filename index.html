@@ -234,6 +234,10 @@ and backpropagation through this loss function can be used to update the network
 </p> 
 
 <p>The agent interacts with an environment E, which in our case is the Atari emulator. <br>
+ 
+ <p>We use OpenAI gym (a game simulator), and use Breakout game from that. Interacting with open ai is very simple</p>
+<script src="https://gist.github.com/shivam5/665eba2c5f65c7cef3577b4373788030.js"></script>
+ 
  The agent selects an action from all the legal actions possible which is passed to the Atari emulator,
  the internal state and the game score is modified. However, the internal state cannot be observed by the agent, instead it just
  observes and image x<sub>t</sub> from the emulator which is the current screen. It also receives a reward r<sub>t</sub> which represents the change in game score.
@@ -246,6 +250,9 @@ and backpropagation through this loss function can be used to update the network
 Also, all sequences in the emulator are assumed to terminate in a finite number of time-steps, hence this gives
 rise to a large but finite Markov decision process (MDP) in which each sequence is a distinct state.
 As a result, standard reinforcement learning methods for MDPs can be applied.
+ <br>
+ In practice, we maintain the last 4 observations as our state. 
+ <script src="https://gist.github.com/shivam5/578c81d2657957abe10d013d76b765c5.js"></script>
 </p>
 <p>Now, that the environment, state, actions, and rewards are defined. The Q-learning algorithm that was explained above needs
  to be applied. But it is very impractical to maintain a table Q[S,A] since the state space is extremely large (consisting of game sequences).
@@ -268,13 +275,20 @@ Note that this algorithm is model-free: it solves the reinforcement learning tas
  <br>It is also off-policy: it learns about the greedy strategy a = max<sub>a</sub> Q(s; a; θ), while following a behaviour distribution that
 ensures adequate exploration of the state space. In practice, the behaviour distribution is often selected by an &epsilon;-greedy strategy that follows the greedy strategy with probability 1 − &epsilon; and selects a
  random action with probability &epsilon;. </p>
+<script src="https://gist.github.com/shivam5/b903160948b066cfc877f562b6f1c662.js"></script>
+
+<br>
 
 <p>To alleviate the problems of correlated data and non-stationary distributions, a technique known as experience replay mechanism 
  is used which randomly samples previous transitions, and thereby smooths the training distribution over many past behaviors.
  Agent’s experiences at each time-step, e<sub>t</sub> = (s<sub>t</sub>; a<sub>t</sub>; r<sub>t</sub>; s<sub>t+1</sub>)
-in a data-set D = e<sub>1</sub>; :::; e<sub>N</sub>, pooled over many episodes into a replay memory. During the inner
-loop of the algorithm, we apply Q-learning updates, or minibatch updates, to samples of experience,
+in a data-set D = e<sub>1</sub>; :::; e<sub>N</sub>, pooled over many episodes into a replay memory. 
+ <br>
+ <script src="https://gist.github.com/shivam5/a1cc21618472e53295b1bb2e4588f851.js"></script>
+ <br>
+ During the inner loop of the algorithm, we apply Q-learning updates, or minibatch updates, to samples of experience,
 e ∼ D, drawn at random from the pool of stored samples. 
+ <script src="https://gist.github.com/shivam5/bc3e905ef81a02ed71c41b05b59d9a36.js"></script>
 </p>
 
 <p> The advantages of the experience-replay mechanism are as given below:
@@ -320,7 +334,9 @@ We trained our DQN on the Atari game - Breakout. The network architecture, and p
 <br>
 The hyperparameters used are explained below:
 <script src="https://gist.github.com/shivam5/c9b6c5831f1e3522c70b9f7f8e67cc0b.js"></script>
-
+<br>
+The driver code for the experiment is as shown:
+<script src="https://gist.github.com/shivam5/d95d162f668dd2a6d660b89430839c26.js"></script>
 Also, a simple frame-skipping technique was used. More precisely, the agent sees and selects actions on every kth frame instead of every
 frame, and its last action is repeated on skipped frames. Since running the emulator forward for one
 step requires much less computation than having the agent select an action, this technique allows
@@ -330,7 +346,7 @@ the agent to play roughly k times more games without significantly increasing th
 <h2>5. Observations</h2>
 After training the DQN, it succesfully learns to play the breakout game as shown by the gif:
 <br>
-<img src="images/game.gif" alt="playing breakout">
+<p><img src="images/game.gif" alt="playing breakout"></p>
 
 <br>
 In the paper, it is shown that this approach gave state-of-the-art results in six of the seven games it was tested on, with no adjustment of the
@@ -365,9 +381,15 @@ architecture or hyperparameters.
  
  <h3>References</h3>
  <ol>
-  <li>https://artint.info/html/ArtInt_265.html</li>
-  <li>Playing Atari with Deep Reinforcement Learning</li>
- </ol>
+  <li><a href="https://arxiv.org/pdf/1312.5602.pdf">Mnih, Volodymyr, et al. &#34;Playing atari with deep reinforcement learning.&#34;<i> arXiv preprint arXiv:1312.5602 </i>(2013).</a>
+  <li><a href="http://proceedings.mlr.press/v48/mniha16.pdf">Mnih, Volodymyr, et al. &#34;Asynchronous methods for deep reinforcement learning.&#34; <i>International conference on machine learning. </i>2016.</a>
+  <li><a href="https://arxiv.org/pdf/1708.05866.pdf">Arulkumaran, Kai, et al. &#34;A brief survey of deep reinforcement learning.&#34; <i>arXiv preprint arXiv:1708.05866</i> (2017).</a>  
+  <li>https://skymind.ai/wiki/deep-reinforcement-learning
+   <li>https://www.quora.com/What-is-the-difference-between-model-based-and-model-free-reinforcement-learning
+     <li>https://stats.stackexchange.com/questions/184657/what-is-the-difference-between-off-policy-and-on-policy-learning
+     <li>https://www.quora.com/What-is-an-example-of-temporal-difference-learning
+     <li>https://ai.stackexchange.com/questions/6196/q-learning-vs-policy-gradients
+</ol>
  
  </body>
 </html>
