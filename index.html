@@ -209,7 +209,7 @@ and backpropagation through this loss function can be used to update the network
  <p>They applied their method to seven Atari 2600 games from the Arcade Learning Environment. This algorithm outperforms
   all previous approaches on six of the seven games, and outperforms humans in three of the games</p>
 
-<img src="atari_games.png" alt="Atari games">
+<img src="images/atari_games.png" alt="Atari games">
 
  <h4>Introduction of Q-Learning</h4>
  <p>
@@ -253,7 +253,12 @@ iteration i:
  <br>
  L<sub>i</sub> (θ<sub>i</sub>) = E<sub>s;a∼ρ(·)</sub> [(y<sub>i</sub> − Q (s; a; θ<sub>i</sub>))<sup2</sup>]
  <br>
- where 
+ where y<sub>i</sub> = E<sub>s'∼E</sub> [r + γ max<sub>a'</sub> Q(s'; a'; θ<sub>i−1)</sub>|s; a] is the target for iteration i and ρ(s; a) is a
+probability distribution over sequences s and actions a that we refer to as the behaviour distribution.
+ <br>
+ Differentiating the loss function with respect to the weights we arrive at the following gradient
+ <br>
+ &Delta;<sub>θ<sub>i</sub></sub>L<sub>i</sub< (θ<sub>i</sub>) = E<sub>s,a∼ρ(·);s'∼E</sub> [(r + γ max <sub>a'</sub> Q(s', a', θ<sub>i−1</sub>) − Q(s, a; θ<sub>i</sub>)) &delta;<sub>θ<sub>i</sub></sub>Q(s, a; θ<sub>i</sub>)]
 </p>
   
 
