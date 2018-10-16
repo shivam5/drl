@@ -25,6 +25,9 @@ class DQN_agent:
         else:
             return self.network.predict_action(state)
 
+    def next_greedy_action(self, state):
+        return self.network.predict_action(state)
+
     def sample_batch(self):
         return random.sample(self.experience_memory, config.minibatch_size)
 

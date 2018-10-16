@@ -22,9 +22,12 @@ agent.load(config.load_weight_file)
 
 
 game_complete = False
+dead = False
+starting_lives = 5
 #Resetting the environment
 observation = environment.reset()
 
+first = True
 
 observation = agent.preprocess_game_image(observation)
 curr_state = np.array([observation, observation, observation, observation])
@@ -34,12 +37,20 @@ while (not game_complete):
     environment.render()
 
 
-    action = agent.next_action(curr_state)
-    # real_action = action+1
+    action = agent.next_greedy_action(curr_state)
+
+    if dead or first:
+        dead = False
+        first = False
+        action = 1
 
     observation, reward, game_complete, info = environment.step(action)
     processed_obs = agent.preprocess_game_image(observation)
     next_state = agent.construct_new_state(curr_state, processed_obs)
+
+    if starting_lives > info['ale.lives']:
+      dead = True
+      starting_lives = info['ale.lives']
 
     score += reward
     curr_state = next_state

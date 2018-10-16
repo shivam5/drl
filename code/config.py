@@ -20,10 +20,9 @@ class config:
     minibatch_size = 32
     dropout_prob = 0.1
 
-#     load_weight_file = "weights/breakoutweight"+str(initial_episode)+"h5"
-    # load_weight_file = "weights/breakoutweight0.h5"
+    # load_weight_file = "weights/breakoutweight"+str(initial_episode)+".h5"
     load_weight_file = None
-    see_video = False
+    see_video = True
     network_input_shape = (4, 110, 84)
     network_batch_shape = (1, 4, 110, 84)
     image_size = (110, 84)

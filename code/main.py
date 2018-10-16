@@ -25,6 +25,8 @@ for episode_no in range(config.initial_episode, config.num_episodes):
     game_complete = False
     starting_lives = 5
     score = 0
+    dead = False
+    first = True
 
     #Resetting the environment
     initial_observation = environment.reset()
@@ -44,15 +46,21 @@ for episode_no in range(config.initial_episode, config.num_episodes):
 
 
         action = agent.next_action(curr_state)
-        # real_action = action+1
+
+        if dead or first:
+            dead = False
+            first = False
+            action = 1
 
         observation, reward, game_complete, info = environment.step(action)
         processed_obs = agent.preprocess_game_image(observation)
         next_state = agent.construct_new_state(curr_state, processed_obs)
 
+        if starting_lives > info['ale.lives']:
+          dead = True
+          starting_lives = info['ale.lives']
 
         average_q_max += np.amax(agent.network.predict(curr_state))
-
 
         agent.add_experience(curr_state, action, np.clip(reward, -1, 1), next_state, game_complete)
 
@@ -75,9 +83,6 @@ for episode_no in range(config.initial_episode, config.num_episodes):
         frame_no += 1
         global_step += 1
 
-    # print("episode: {}/{}, score: {}, player score: {}, e: {:.2}"
-    #       .format(episode_no, config.num_episodes, score, pos_score, agent.epsilon))
-    # agent.train()
 
     if episode_no % 100 == 0:
         agent.save("weights/breakoutweight"+str(episode_no)+".h5")
